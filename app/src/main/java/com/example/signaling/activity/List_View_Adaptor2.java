@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,16 +32,18 @@ public class List_View_Adaptor2 extends ArrayAdapter<link> {
     int mResource;
     ArrayList<shops> shops;
     ArrayList<link> link;
-    FusedLocationProviderClient fusedLocationProviderClient;
+    Task<Location> task;
 
 
 
-    public List_View_Adaptor2(Context context, int resource, ArrayList<link> link, ArrayList<shops> shops) {
+
+    public List_View_Adaptor2(Context context, int resource, ArrayList<link> link, ArrayList<shops> shops, Task<Location> task) {
         super(context, resource, link);
         mContext = context;
         mResource = resource;
         this.link = link;
         this.shops = shops;
+        this.task = task;
 
 
     }
@@ -49,10 +52,12 @@ public class List_View_Adaptor2 extends ArrayAdapter<link> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
 
-        //shops shopsA = shops.get(position);
+        shops shopsA = shops.get(position);
+        Log.d(TAG, " 33333333333333333333333333333333333333333" + shops.size());
+        Log.d(TAG, " 55555555555555555555555555555555555555555" + link.size());
 
         int id = getItem(position).id;
-        //String name = shopsA.name;
+        String name = shopsA.name;
         String price = getItem(position).price;
         String offers = getItem(position).offers;
 
@@ -65,31 +70,19 @@ public class List_View_Adaptor2 extends ArrayAdapter<link> {
         TextView tvdistance = (TextView) convertView.findViewById(R.id.tvdistance);
 
 
-  //      if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            //return TODO;
-        //      }
-        //    Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        Location shop = new Location("shop");
+        shop.setLatitude(shopsA.latitude);
+        shop.setLongitude(shopsA.longitude);
 
-//        Location shop = new Location("shop");
-//        shop.setLatitude(shopsA.latitude);
-//        shop.setLongitude(shopsA.longitude);
-//        Location user = new Location("User") ;
+        Location user = new Location("User") ;
+        //user.setLatitude(task.getResult().getLatitude());
+        //user.setLongitude(task.getResult().getLongitude());
 
-//        user.setLatitude(task.getResult().getLatitude());
-//        user.setLongitude(task.getResult().getLongitude());
-//        int d = (int) (user.distanceTo(shop)/1000) ;
-
-//        String s = Integer.toString(d);
+        //int d = (int) (user.distanceTo(shop)/1000) ;
+        //String s = Integer.toString(d);
 
 
-        //tvname.setText(name);
+        tvname.setText(name);
         tvprice.setText(price);
         tvoffers.setText(offers);
         //tvdistance.setText(s);

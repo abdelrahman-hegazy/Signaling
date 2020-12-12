@@ -1,10 +1,14 @@
 package com.example.signaling.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -16,6 +20,9 @@ import com.example.signaling.app.AppController;
 import com.example.signaling.helper.link;
 import com.example.signaling.helper.products;
 import com.example.signaling.helper.shops;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.Task;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,11 +34,13 @@ import java.util.Map;
 
 public class shopsList extends AppCompatActivity {
 
+    private static final int REQUEST_CODE = 101;
     ListView List;
     ArrayList<link> ArrayLink = new ArrayList<link>();
     ArrayList<shops> ArrayShops = new ArrayList<shops>();
     String tag_string_req = "Products req";
     private static final String TAG = productsList.class.getSimpleName();
+    FusedLocationProviderClient fusedLocationProviderClient;
 
 
     @Override
@@ -41,7 +50,12 @@ public class shopsList extends AppCompatActivity {
 
         List = (ListView) findViewById(R.id.shopsList);
 
+
         link(3);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+
 
     }
 
@@ -67,7 +81,6 @@ public class shopsList extends AppCompatActivity {
                         }
                     }
 
-                    List.setAdapter(new List_View_Adaptor2(shopsList.this, R.layout.listview_item2, ArrayLink, ArrayShops));
 
                 } catch (JSONException e) {
                     // JSON error
@@ -106,6 +119,11 @@ public class shopsList extends AppCompatActivity {
                         }
 
                     }
+                    if(ArrayLink.size() == ArrayShops.size()){
+
+                        List.setAdapter(new List_View_Adaptor2(shopsList.this, R.layout.listview_item2, ArrayLink, ArrayShops, fetchLocation()));
+                    }
+
                 } catch (JSONException e) {
                     // JSON error
                     e.printStackTrace();
@@ -122,4 +140,16 @@ public class shopsList extends AppCompatActivity {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
+
+    private Task<Location> fetchLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+
+        }
+        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        return task;
+    }
+
 }

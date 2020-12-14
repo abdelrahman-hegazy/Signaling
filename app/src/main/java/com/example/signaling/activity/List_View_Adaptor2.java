@@ -79,13 +79,13 @@ public class List_View_Adaptor2 extends ArrayAdapter<link> {
         //user.setLongitude(task.getResult().getLongitude());
 
         //int d = (int) (user.distanceTo(shop)/1000) ;
-        //String s = Integer.toString(d);
+        String s = Integer.toString(5);
 
 
         tvname.setText(name);
         tvprice.setText(price);
         tvoffers.setText(offers);
-        //tvdistance.setText(s);
+        tvdistance.setText(s);
 
 
         return convertView;

@@ -12,6 +12,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.target.Target;
 import com.example.signaling.R;
 import com.example.signaling.helper.products;
 
@@ -49,6 +53,9 @@ public class List_View_Adaptor extends ArrayAdapter<products> {
         TextView tvname = (TextView) convertView.findViewById(R.id.tvname);
         TextView tvdescription = (TextView) convertView.findViewById(R.id.tvdescription);
         ImageView tvimage = (ImageView) convertView.findViewById(R.id.imageView);
+
+        Glide.with(mContext).load(image).diskCacheStrategy(DiskCacheStrategy.NONE).into(tvimage);
+
 
         tvname.setText(name);
         tvdescription.setText(description);

@@ -39,6 +39,7 @@ public class LoginActivity extends Activity {
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
+    static String userID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -132,7 +133,7 @@ public class LoginActivity extends Activity {
 
                         // Now store the user in SQLite
                         String uid = jObj.getString("uid");
-
+                        userID = uid;
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
                         String email = user.getString("email");

@@ -1,5 +1,7 @@
 package com.example.signaling.activity;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,12 +9,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.android.volley.*;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.signaling.R;
+import com.example.signaling.app.AppConfig;
+import com.example.signaling.app.AppController;
+import com.example.signaling.helper.cart;
+import com.example.signaling.helper.products;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,33 +25,26 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import com.example.signaling.app.AppConfig;
-import com.example.signaling.app.AppController;
-import com.example.signaling.helper.products;
-import com.example.signaling.R;
-
-public class productsList extends AppCompatActivity {
-
+public class cartActivity extends AppCompatActivity {
     ListView List;
-    static ArrayList<products> ArrayProducts = new ArrayList<products>();
-    ArrayList<String> productNames = new ArrayList<String >();
     String tag_string_req = "Products req";
     private static final String TAG = productsList.class.getSimpleName();
+    static ArrayList<cart> Arraycart = new ArrayList<cart>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_products);
+        setContentView(R.layout.activity_cart);
 
-        List = (ListView) findViewById(R.id.productsList);
+        List = (ListView) findViewById(R.id.saveList);
 
-        products();
+        cart();
 
     }
 
-    public void products(){
+    public void cart(){
 
-        StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.URL_PRODUCT, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.URL_CART, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -57,20 +55,10 @@ public class productsList extends AppCompatActivity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jObj = jsonArray.getJSONObject(i);
 
-                        ArrayProducts.add(new products(jObj.getInt("id"), jObj.getString("name"),
-                                jObj.getString("description"), jObj.getString("image")));
-
-                        productNames.add(jObj.getString("name"));
+                        Arraycart.add(new cart(jObj.getInt("id"), jObj.getString("userID"), jObj.getString("shopName"),
+                                jObj.getString("productName"), jObj.getString("price"), jObj.getString("offers")));
                     }
-                    List.setAdapter(new List_View_Adaptor(productsList.this, R.layout.listview_item, ArrayProducts));
-
-                    List.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent i = new Intent(getApplicationContext(), shopsList.class);
-                            startActivity(i);
-                        }
-                    });
+                    List.setAdapter(new List_View_Adaptor3(cartActivity.this, R.layout.listview_item3, Arraycart));
 
                 } catch (JSONException e) {
                     // JSON error
@@ -85,5 +73,4 @@ public class productsList extends AppCompatActivity {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
-
 }

@@ -12,7 +12,7 @@
         android:layout_marginBottom="2dp">
 
         <TextView
-            android:id="@+id/tvname"
+            android:id="@+id/tvnameShop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -21,7 +21,7 @@
             android:textSize="20dp" />
 
         <TextView
-            android:id="@+id/tvprice"
+            android:id="@+id/tvnameProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -30,7 +30,7 @@
             android:textSize="20dp" />
 
         <TextView
-            android:id="@+id/tvoffers"
+            android:id="@+id/tvprice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -39,7 +39,7 @@
             android:textSize="20dp" />
 
         <TextView
-            android:id="@+id/tvdistance"
+            android:id="@+id/tvoffers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -48,13 +48,13 @@
             android:textSize="20dp" />
 
         <Button
-            android:id="@+id/save"
+            android:id="@+id/delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="20dp"
-            android:text="SAVE/DELETE" />
+            android:text="DELETE" />
 
     </RelativeLayout>
 
